@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-const Login = ({ isDark }) => {
+const Signup = ({ isDark }) => {
+  const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [name, setName] = useState(''); 
   const navigate = useNavigate();
 
   const handleAuth = async (e) => {
@@ -15,9 +15,10 @@ const Login = ({ isDark }) => {
       body: JSON.stringify({ phone })
     });
     if (res.ok) {
+      // Signup ke waqt name bhi bhej rahe hain taaki DB mein save ho sake
       navigate('/otp-verify', { state: { phone, name } });
     } else {
-      alert("Login fail! Number check karo.");
+      alert("OTP nahi bhej paye! Backend check karo.");
     }
   };
 
@@ -28,30 +29,35 @@ const Login = ({ isDark }) => {
   return (
     <div className={`min-h-screen flex items-center justify-center p-6 transition-colors duration-500 ${isDark ? 'bg-[#0a0f1a]' : 'bg-[#f4f7f6]'}`}>
       <motion.div 
-        initial={{ y: -20, opacity: 0 }} 
+        initial={{ y: 20, opacity: 0 }} 
         animate={{ y: 0, opacity: 1 }}
         className={`max-w-md w-full p-10 rounded-[2.5rem] border shadow-2xl ${isDark ? 'bg-[#111827] border-slate-800' : 'bg-white border-slate-200'}`}
       >
         <h1 className="text-4xl font-black italic text-blue-500 text-center mb-2">InstaMed</h1>
-        <p className={`text-center uppercase tracking-[0.2em] text-[10px] font-bold mb-10 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Welcome Back</p>
+        <p className={`text-center uppercase tracking-[0.2em] text-[10px] font-bold mb-10 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Create New Account</p>
 
-        <form onSubmit={handleAuth} className="space-y-6">
-          <div className="space-y-4">
-            <input type="text" placeholder="Full Name" required className={inputClass} onChange={(e) => setName(e.target.value)} />
-            <input type="tel" placeholder="Phone Number" required className={inputClass} onChange={(e) => setPhone(e.target.value)} />
+        <form onSubmit={handleAuth} className="space-y-5">
+          <div>
+            <label className={`block text-[10px] uppercase font-black mb-2 ml-2 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Full Name</label>
+            <input type="text" placeholder="Your Name" required className={inputClass} onChange={(e) => setName(e.target.value)} />
+          </div>
+
+          <div>
+            <label className={`block text-[10px] uppercase font-black mb-2 ml-2 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Phone Number</label>
+            <input type="tel" placeholder="+91 XXXXX XXXXX" required className={inputClass} onChange={(e) => setPhone(e.target.value)} />
           </div>
 
           <button type="submit" className="w-full py-5 bg-blue-600 text-white rounded-2xl font-black uppercase tracking-widest hover:bg-blue-500 shadow-lg shadow-blue-600/20 active:scale-95 transition-all">
-            Login with OTP
+            Sign Up & Get OTP
           </button>
         </form>
 
         <p className={`mt-8 text-center font-bold text-sm ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-          New user? <Link to="/signup" className="text-blue-500 hover:underline ml-1">Create Account</Link>
+          Already have an account? <Link to="/login" className="text-blue-500 hover:underline ml-1">Login</Link>
         </p>
       </motion.div>
     </div>
   );
 };
 
-export default Login;
+export default Signup;

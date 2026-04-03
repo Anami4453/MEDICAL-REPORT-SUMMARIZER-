@@ -1,61 +1,59 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-
-// Components
 import Navbar from './components/Navbar';
-import ChatFloatingIcon from './components/ChatFloatingIcon';
-
-// Pages
 import Home from './pages/Home';
 import Login from './pages/Login';
-import History from './pages/History'; 
+import Signup from './pages/Signup';
 import OTPVerify from './pages/OTPVerify';
+import History from './pages/History'; // 🔥 Naya import add kiya
+import ChatFloatingIcon from './components/ChatFloatingIcon';
 
-// Helper component to manage Layout
 const AppContent = ({ isDark, setIsDark }) => {
   const location = useLocation();
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-
-  // Hide Navbar on Login and OTP pages
-  const hideNavbarOn = ['/login', '/verify-otp'];
+  const isAuthenticated = localStorage.getItem('token') !== null;
+  
+  // Login/Signup/Root par Navbar hide karne ke liye logic
+  const hideNavbarOn = ['/login', '/signup', '/otp-verify', '/'];
   const shouldShowNavbar = !hideNavbarOn.includes(location.pathname);
 
   return (
-    <div className={`min-h-screen transition-all duration-700 font-sans ${
-      isDark ? 'bg-[#0a0f1a] text-slate-200' : 'bg-[#f4f7f6] text-slate-900'
-    }`}>
-      
-      {/* Nayi Navbar sirf home aur history par dikhegi */}
+    <div className={`min-h-screen transition-all duration-500 ${isDark ? 'bg-[#0a0f1a]' : 'bg-[#f4f7f6]'}`}>
       {shouldShowNavbar && <Navbar isDark={isDark} setIsDark={setIsDark} />}
       
-      <main className={`${shouldShowNavbar ? 'pt-6 pb-20' : ''} min-h-screen`}> 
+      <main className={shouldShowNavbar ? 'pt-4 pb-20' : ''}>
         <Routes>
           <Route path="/login" element={<Login isDark={isDark} />} />
-          <Route path="/verify-otp" element={<OTPVerify isDark={isDark} />} />
+          <Route path="/signup" element={<Signup isDark={isDark} />} />
+          <Route path="/otp-verify" element={<OTPVerify isDark={isDark} />} />
           
-          {/* Protected Routes */}
-          <Route path="/" element={isLoggedIn ? <Home isDark={isDark} /> : <Navigate to="/login" />} />
-          <Route path="/history" element={isLoggedIn ? <History isDark={isDark} /> : <Navigate to="/login" />} />
+          {/* Authenticated Routes */}
+          <Route path="/home" element={isAuthenticated ? <Home isDark={isDark} /> : <Navigate to="/login" />} />
           
-          <Route path="*" element={<div className="flex items-center justify-center h-[70vh] font-black text-4xl opacity-10 uppercase">404 | NOT FOUND</div>} />
+          {/* 🔥 HISTORY ROUTE YAHAN ADD KIYA 🔥 */}
+          <Route path="/history" element={isAuthenticated ? <History isDark={isDark} /> : <Navigate to="/login" />} />
+          
+          <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </main>
 
-      {/* Chatbot hamesha accessible rahega */}
-      <ChatFloatingIcon isDark={isDark} />
+      {/* Chatbot tabhi dikhega jab user login hoga */}
+      {isAuthenticated && <ChatFloatingIcon isDark={isDark} />}
     </div>
   );
 };
 
 function App() {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(() => {
+    try {
+      const saved = localStorage.getItem('theme');
+      return saved !== null ? JSON.parse(saved) : true;
+    } catch (e) { return true; }
+  });
 
   useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    if (isDark) document.documentElement.classList.add('dark');
+    else document.documentElement.classList.remove('dark');
+    localStorage.setItem('theme', JSON.stringify(isDark));
   }, [isDark]);
 
   return (

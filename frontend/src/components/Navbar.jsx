@@ -1,26 +1,54 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Navbar = ({ isDark }) => {
+const Navbar = ({ isDark, setIsDark }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
   return (
-    <header className="max-w-7xl mx-auto flex justify-between items-center py-6 px-8">
+    <nav className={`px-10 py-5 flex items-center justify-between transition-all duration-500 sticky top-0 z-40 backdrop-blur-md ${
+      isDark ? 'bg-[#0a0f1a]/80 border-b border-slate-800' : 'bg-white/80 border-b border-slate-200 shadow-sm'
+    }`}>
+      {/* Logo Section */}
       <div className="flex items-center gap-3">
-        {/* InstaMed Branding */}
-        <div className="bg-blue-600 p-2 rounded-xl shadow-lg shadow-blue-500/30">
-           <span className="text-white font-black text-xl">IM</span>
-        </div>
-        <h1 className={`text-2xl font-black tracking-tight italic ${isDark ? 'text-white' : 'text-slate-900'}`}>
-          InstaMed
-        </h1>
+        <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg">IM</div>
+        <span className={`text-2xl font-black italic tracking-tighter ${isDark ? 'text-white' : 'text-slate-900'}`}>InstaMed</span>
       </div>
-      
-      <nav className="flex items-center gap-8 text-[13px] font-bold uppercase tracking-widest opacity-80">
-        <a href="/" className="hover:text-blue-500 transition-colors">Home</a>
-        <a href="/history" className="hover:text-blue-500 transition-colors">History</a>
-        <button className="bg-slate-800 text-white px-6 py-2.5 rounded-full hover:bg-slate-700 transition-all active:scale-95 shadow-md">
+
+      {/* Navigation & Actions */}
+      <div className="flex items-center gap-10">
+        
+        {/* Dark Mode Toggle */}
+        <button 
+          onClick={() => setIsDark(!isDark)} 
+          className={`px-4 py-2 rounded-full font-bold text-[10px] uppercase tracking-widest transition-all ${
+            isDark ? 'bg-slate-800 text-yellow-400 border border-slate-700' : 'bg-slate-100 text-slate-600 border border-slate-200'
+          }`}
+        >
+          {isDark ? '☀️ LIGHT' : '🌙 DARK'}
+        </button>
+
+        {/* Links Section - Yahan History Wapas Aa Gayi */}
+        <div className={`flex gap-8 font-bold text-xs uppercase tracking-widest ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+          <Link to="/home" className="hover:text-blue-500 transition-colors">Home</Link>
+          
+          {/* 🔥 HISTORY LINK 🔥 */}
+          <Link to="/history" className="hover:text-blue-500 transition-colors">History</Link>
+        </div>
+
+        {/* Logout Button */}
+        <button 
+          onClick={handleLogout} 
+          className="bg-red-500/10 text-red-500 px-6 py-2 rounded-full text-xs font-black uppercase tracking-tighter hover:bg-red-500 hover:text-white transition-all shadow-lg shadow-red-500/10"
+        >
           Logout
         </button>
-      </nav>
-    </header>
+      </div>
+    </nav>
   );
 };
 
