@@ -1,0 +1,69 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .box { rx: 25; ry: 25; stroke-width: 4; }
+      .title { font: bold 26px sans-serif; }
+      .label { font: 18px sans-serif; }
+      .arrow { fill: none; stroke: #222; stroke-width: 4; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#222" />
+    </marker>
+  </defs>
+
+  <rect x="50" y="50" width="230" height="120" rx="30" ry="30" class="box" fill="#ffcc00" stroke="#cc9900" />
+  <text x="165" y="90" text-anchor="middle" class="title" fill="#000">User</text>
+  <text x="165" y="118" text-anchor="middle" class="label" fill="#000">(End User)</text>
+
+  <rect x="320" y="50" width="290" height="120" rx="30" ry="30" class="box" fill="#60a5fa" stroke="#2563eb" />
+  <text x="465" y="90" text-anchor="middle" class="title" fill="#fff">Browser / Frontend UI</text>
+
+  <path class="arrow" d="M 280 110 L 320 110" />
+
+  <rect x="180" y="220" width="340" height="140" rx="30" ry="30" class="box" fill="#34d399" stroke="#059669" />
+  <text x="350" y="265" text-anchor="middle" class="title" fill="#000">Process 1</text>
+  <text x="350" y="295" text-anchor="middle" class="label" fill="#000">Authenticate User</text>
+  <text x="350" y="325" text-anchor="middle" class="label" fill="#000">(send OTP / verify OTP)</text>
+
+  <rect x="670" y="220" width="340" height="140" rx="30" ry="30" class="box" fill="#34d399" stroke="#059669" />
+  <text x="840" y="265" text-anchor="middle" class="title" fill="#000">Process 2</text>
+  <text x="840" y="295" text-anchor="middle" class="label" fill="#000">Summarize Medical Report</text>
+  <text x="840" y="325" text-anchor="middle" class="label" fill="#000">(local AI mock + history)</text>
+
+  <path class="arrow" d="M 465 170 L 465 220" />
+  <path class="arrow" d="M 465 290 L 465 320" />
+
+  <rect x="260" y="420" width="300" height="130" rx="30" ry="30" class="box" fill="#f472b6" stroke="#be185d" />
+  <text x="410" y="470" text-anchor="middle" class="title" fill="#000">Backend API</text>
+  <text x="410" y="500" text-anchor="middle" class="label" fill="#000">(Flask)</text>
+
+  <rect x="700" y="420" width="300" height="130" rx="30" ry="30" class="box" fill="#a855f7" stroke="#6d28d9" />
+  <text x="850" y="470" text-anchor="middle" class="title" fill="#fff">Data Store</text>
+  <text x="850" y="500" text-anchor="middle" class="label" fill="#fff">MongoDB</text>
+  <text x="850" y="530" text-anchor="middle" class="label" fill="#fff">(users, otps, reports)</text>
+
+  <rect x="700" y="570" width="300" height="120" rx="30" ry="30" class="box" fill="#fbbf24" stroke="#d97706" />
+  <text x="850" y="610" text-anchor="middle" class="title" fill="#000">Browser Local Storage</text>
+  <text x="850" y="640" text-anchor="middle" class="label" fill="#000">(token, userName, medicalHistory)</text>
+
+  <path class="arrow" d="M 465 480 L 560 480" />
+  <path class="arrow" d="M 560 480 L 560 475 L 570 475" />
+  <path class="arrow" d="M 560 480 L 560 520 L 560 520" />
+  <path class="arrow" d="M 560 480 L 700 480" />
+
+  <path class="arrow" d="M 850 550 L 850 570" />
+  <path class="arrow" d="M 850 550 L 850 470" />
+
+  <path class="arrow" d="M 410 550 L 410 570" />
+  <path class="arrow" d="M 410 550 L 410 470" />
+
+  <path class="arrow" d="M 465 550 L 760 550" />
+  <path class="arrow" d="M 760 550 L 760 560" />
+  <path class="arrow" d="M 760 550 L 760 450" />
+
+  <text x="825" y="355" class="label" fill="#000">returns token</text>
+  <text x="315" y="355" class="label" fill="#000">stores token/userName</text>
+  <text x="870" y="690" class="label" fill="#000">save/load history</text>
+  <text x="580" y="260" class="label" fill="#000">calls backend</text>
+  <text x="900" y="470" class="label" fill="#000">reads/writes</text>
+</svg>
